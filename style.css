@@ -13,44 +13,63 @@ body {
 
 header {
     text-align: center;
-    padding: 40px 20px 20px;
+    padding: 20px;
     border-bottom: 1px solid #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 header h1 {
-    font-size: 2.5em;
+    font-size: 2em;
     color: #c9a84c;
     letter-spacing: 2px;
 }
 
 header p {
-    margin-top: 8px;
+    width: 100%;
     font-style: italic;
     color: #aaa;
+    font-size: 0.95em;
+}
+
+#btn-home {
+    position: absolute;
+    left: 15px;
+    background: transparent;
+    border: 1px solid #c9a84c;
+    color: #c9a84c;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: Georgia, serif;
+    font-size: 0.9em;
 }
 
 main {
-    max-width: 700px;
-    margin: 40px auto;
+    max-width: 600px;
+    margin: 30px auto;
     padding: 0 20px;
 }
 
 h2 {
     text-align: center;
     color: #c9a84c;
-    margin-bottom: 30px;
-    font-size: 1.3em;
+    margin-bottom: 25px;
+    font-size: 1.2em;
 }
 
 .filtro-gruppo {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .filtro-gruppo label {
     display: block;
     margin-bottom: 6px;
     color: #c9a84c;
-    font-size: 0.95em;
+    font-size: 0.85em;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
@@ -67,21 +86,4 @@ h2 {
 }
 
 #btn-gioca {
-    display: block;
-    width: 100%;
-    margin-top: 30px;
-    padding: 16px;
-    background-color: #c9a84c;
-    color: #1a1a2e;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.2em;
-    font-family: Georgia, serif;
-    font-weight: bold;
-    cursor: pointer;
-    letter-spacing: 1px;
-}
-
-#btn-gioca:hover {
-    background-color: #e0c068;
-}
+    d
