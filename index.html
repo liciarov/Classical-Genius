@@ -42,4 +42,66 @@
                     </select>
                 </div>
 
-                <div class="f
+                <div class="filtro-gruppo">
+                    <label>Forma musicale</label>
+                    <select id="sel-forma">
+                        <option value="">-- Tutte le forme --</option>
+                    </select>
+                </div>
+
+                <div class="filtro-gruppo">
+                    <label>Durata spezzone</label>
+                    <select id="sel-durata">
+                        <option value="5">5 secondi</option>
+                        <option value="3">3 secondi</option>
+                        <option value="1.5">1.5 secondi</option>
+                    </select>
+                </div>
+
+                <button id="btn-gioca">🎵 Inizia a giocare!</button>
+            </section>
+        </main>
+    </div>
+
+    <!-- GIOCO -->
+    <div id="schermata-gioco" style="display:none;">
+        <header>
+            <img src="favicon.ico" alt="logo" style="height:40px;">
+            <h1>Classical Genius</h1>
+            <button id="btn-home">← Home</button>
+        </header>
+
+        <main>
+            <div id="card-brano">
+                <p id="info-brano">Caricamento...</p>
+                <button id="btn-ascolta">🎵 Ascolta</button>
+                <div id="controlli-durata">
+                    <span id="durata-scelta">5 sec</span>
+                </div>
+            </div>
+
+            <div id="risposta" style="display:none;">
+                <h2 id="titolo-risposta"></h2>
+                <p id="compositore-risposta"></p>
+                <p id="movimento-risposta"></p>
+
+                <div id="bottoni-anki">
+                    <button class="anki-btn" id="btn-corretto">✅ Corretto</button>
+                    <button class="anki-btn" id="btn-insicuro">😅 Insicuro</button>
+                    <button class="anki-btn" id="btn-sbagliato">❌ Sbagliato</button>
+                    <button class="anki-btn" id="btn-nonricordo">🤷 Non ricordavo</button>
+                </div>
+
+                <button id="btn-segnala">⚠️ Segnala problema</button>
+            </div>
+
+            <button id="btn-mostra-risposta" style="display:none;">👁️ Mostra risposta</button>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/midi-player-js@2.0.16/browser/midiplayer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/soundfont-player@0.12.0/dist/soundfont-player.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
