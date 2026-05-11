@@ -6,33 +6,60 @@
 
 body {
     font-family: Georgia, serif;
-    background-color: #1a1a2e;
-    color: #e0e0e0;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
     min-height: 100vh;
+    color: #e0e0e0;
 }
 
-header {
+/* HEADER HOME */
+#schermata-home header {
     text-align: center;
-    padding: 20px;
-    border-bottom: 1px solid #444;
+    padding: 40px 20px 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#schermata-home header img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(201,168,76,0.5);
+    margin-bottom: 15px;
+}
+
+#schermata-home header h1 {
+    font-size: 2.2em;
+    color: #c9a84c;
+    letter-spacing: 3px;
+    text-shadow: 0 0 20px rgba(201,168,76,0.4);
+    margin-bottom: 8px;
+}
+
+#schermata-home header p {
+    font-style: italic;
+    color: #aaa;
+    font-size: 1em;
+}
+
+/* HEADER GIOCO */
+#schermata-gioco header {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: relative;
 }
 
-header h1 {
-    font-size: 2em;
+#schermata-gioco header img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+#schermata-gioco header h1 {
+    font-size: 1.4em;
     color: #c9a84c;
-    letter-spacing: 2px;
-}
-
-header p {
-    width: 100%;
-    font-style: italic;
-    color: #aaa;
-    font-size: 0.95em;
 }
 
 #btn-home {
@@ -42,12 +69,13 @@ header p {
     border: 1px solid #c9a84c;
     color: #c9a84c;
     padding: 8px 14px;
-    border-radius: 6px;
+    border-radius: 20px;
     cursor: pointer;
     font-family: Georgia, serif;
-    font-size: 0.9em;
+    font-size: 0.85em;
 }
 
+/* MAIN */
 main {
     max-width: 600px;
     margin: 30px auto;
@@ -59,31 +87,234 @@ h2 {
     color: #c9a84c;
     margin-bottom: 25px;
     font-size: 1.2em;
+    letter-spacing: 1px;
 }
 
+/* FILTRI */
 .filtro-gruppo {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .filtro-gruppo label {
     display: block;
     margin-bottom: 6px;
     color: #c9a84c;
-    font-size: 0.85em;
-    letter-spacing: 1px;
+    font-size: 0.8em;
+    letter-spacing: 2px;
     text-transform: uppercase;
 }
 
 .filtro-gruppo select {
     width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #444;
-    background-color: #16213e;
+    padding: 13px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(201,168,76,0.3);
+    background: rgba(255,255,255,0.05);
     color: #e0e0e0;
     font-size: 1em;
     font-family: Georgia, serif;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
 }
 
+/* BOTTONE GIOCA */
 #btn-gioca {
-    d
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 20px;
+    font-size: 1.2em;
+    font-family: Georgia, serif;
+    font-weight: bold;
+    letter-spacing: 2px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    color: #1a1a2e;
+    background: linear-gradient(145deg, #f7d774, #c9a84c);
+    box-shadow: 
+        0 8px 0 #8a6f2e,
+        0 10px 20px rgba(0,0,0,0.4);
+    transition: all 0.1s ease;
+    transform: translateY(0);
+}
+
+#btn-gioca:hover {
+    background: linear-gradient(145deg, #ffe090, #d4b55a);
+}
+
+#btn-gioca:active {
+    transform: translateY(6px);
+    box-shadow: 
+        0 2px 0 #8a6f2e,
+        0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* CARD BRANO */
+#card-brano {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 40px 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    margin-bottom: 20px;
+}
+
+#info-brano {
+    color: #aaa;
+    font-style: italic;
+    margin-bottom: 30px;
+    font-size: 1.05em;
+}
+
+/* BOTTONE ASCOLTA */
+#btn-ascolta {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: none;
+    font-size: 2.2em;
+    cursor: pointer;
+    margin-bottom: 15px;
+    color: white;
+    background: linear-gradient(145deg, #4fc3f7, #1565c0);
+    box-shadow: 
+        0 8px 0 #0d47a1,
+        0 10px 25px rgba(0,0,0,0.4);
+    transition: all 0.1s ease;
+    transform: translateY(0);
+}
+
+#btn-ascolta:active {
+    transform: translateY(6px);
+    box-shadow: 
+        0 2px 0 #0d47a1,
+        0 4px 10px rgba(0,0,0,0.4);
+}
+
+#controlli-durata {
+    color: #888;
+    font-size: 0.9em;
+    margin-top: 8px;
+}
+
+/* BOTTONE MOSTRA RISPOSTA */
+#btn-mostra-risposta {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    font-size: 1.05em;
+    font-family: Georgia, serif;
+    cursor: pointer;
+    border: none;
+    border-radius: 16px;
+    color: white;
+    background: linear-gradient(145deg, #ab47bc, #6a1b9a);
+    box-shadow: 
+        0 8px 0 #4a148c,
+        0 10px 20px rgba(0,0,0,0.4);
+    transition: all 0.1s ease;
+    transform: translateY(0);
+    margin-top: 15px;
+}
+
+#btn-mostra-risposta:active {
+    transform: translateY(6px);
+    box-shadow: 
+        0 2px 0 #4a148c,
+        0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* RISPOSTA */
+#risposta {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 24px;
+    padding: 30px 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    margin-top: 20px;
+}
+
+#titolo-risposta {
+    color: #c9a84c;
+    font-size: 1.4em;
+    margin-bottom: 8px;
+}
+
+#compositore-risposta {
+    color: #e0e0e0;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+#movimento-risposta {
+    color: #aaa;
+    font-style: italic;
+    margin-bottom: 25px;
+}
+
+/* BOTTONI ANKI */
+#bottoni-anki {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.anki-btn {
+    padding: 16px 10px;
+    border: none;
+    border-radius: 14px;
+    font-family: Georgia, serif;
+    font-size: 0.95em;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    transition: all 0.1s ease;
+    transform: translateY(0);
+}
+
+#btn-corretto {
+    background: linear-gradient(145deg, #66bb6a, #2e7d32);
+    box-shadow: 0 6px 0 #1b5e20, 0 8px 15px rgba(0,0,0,0.3);
+}
+
+#btn-insicuro {
+    background: linear-gradient(145deg, #ffa726, #e65100);
+    box-shadow: 0 6px 0 #bf360c, 0 8px 15px rgba(0,0,0,0.3);
+}
+
+#btn-sbagliato {
+    background: linear-gradient(145deg, #ef5350, #b71c1c);
+    box-shadow: 0 6px 0 #7f0000, 0 8px 15px rgba(0,0,0,0.3);
+}
+
+#btn-nonricordo {
+    background: linear-gradient(145deg, #78909c, #37474f);
+    box-shadow: 0 6px 0 #263238, 0 8px 15px rgba(0,0,0,0.3);
+}
+
+.anki-btn:active {
+    transform: translateY(5px);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.5) !important;
+}
+
+#btn-segnala {
+    background: transparent;
+    border: none;
+    color: #555;
+    font-size: 0.8em;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 5px;
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 480px) {
+    #schermata-home header img { width: 90px; height: 90px; }
+    #schermata-home header h1 { font-size: 1.7em; }
+    #btn-ascolta { width: 85px; height: 85px; font-size: 1.9em; }
+    .anki-btn { padding: 14px 8px; font-size: 0.88em; }
+}
