@@ -10,7 +10,6 @@ let durataScelta = 5;
 let audioContext = null;
 let playerAttivo = null;
 
-// SCHERMATE
 function mostraHome() {
     document.getElementById('schermata-home').style.display = 'block';
     document.getElementById('schermata-gioco').style.display = 'none';
@@ -21,13 +20,11 @@ function mostraGioco() {
     document.getElementById('schermata-gioco').style.display = 'block';
 }
 
-// UTILITIES
 function svuotaSelect(id, placeholder) {
     const sel = document.getElementById(id);
     sel.innerHTML = `<option value="">${placeholder}</option>`;
 }
 
-// CARICA PERIODI (sempre tutti)
 async function caricaPeriodi() {
     const { data } = await db.from('Periodi').select('IDPeriodo, Periodo').order('IDPeriodo');
     const sel = document.getElementById('sel-periodo');
@@ -39,7 +36,6 @@ async function caricaPeriodi() {
     });
 }
 
-// CARICA NAZIONI filtrate per periodo
 async function caricaNazioni(periodoId) {
     svuotaSelect('sel-nazione', '-- Tutte le nazioni --');
     svuotaSelect('sel-compositore', '-- Tutti i compositori --');
@@ -51,7 +47,6 @@ async function caricaNazioni(periodoId) {
     const { data } = await query;
     if (!data) return;
 
-    // Nazioni uniche
     const nazioniMap = {};
     data.forEach(c => {
         if (c.Nazioni) nazioniMap[c.Nazioni.IDNazione] = c.Nazioni.Nazione;
@@ -66,12 +61,11 @@ async function caricaNazioni(periodoId) {
     });
 }
 
-// CARICA COMPOSITORI filtrati per periodo e nazione
 async function caricaCompositori(periodoId, nazioneId) {
     svuotaSelect('sel-compositore', '-- Tutti i compositori --');
     svuotaSelect('sel-forma', '-- Tutte le forme --');
 
-    let query = db.from('Compositori').select('IDCompositore, "Nome Compositore", IDPeriodo, IDNazione');
+    let query = db.from('Compositori').select('IDCompositore, "Nome Compositore"');
     if (periodoId) query = query.eq('IDPeriodo', periodoId);
     if (nazioneId) query = query.eq('IDNazione', nazioneId);
     query = query.order('"Nome Compositore"');
@@ -86,7 +80,6 @@ async function caricaCompositori(periodoId, nazioneId) {
     });
 }
 
-// CARICA FORME filtrate per compositore/periodo/nazione
 async function caricaForme(periodoId, nazioneId, compositoreId) {
     svuotaSelect('sel-forma', '-- Tutte le forme --');
 
@@ -121,7 +114,6 @@ async function caricaForme(periodoId, nazioneId, compositoreId) {
     });
 }
 
-// CARICA BRANI finali
 async function caricaBrani() {
     const periodo = document.getElementById('sel-periodo').value;
     const nazione = document.getElementById('sel-nazione').value;
@@ -154,7 +146,6 @@ async function caricaBrani() {
     return true;
 }
 
-// PROSSIMO BRANO
 async function prossimoBrano() {
     if (braniDisponibili.length === 0) {
         alert('Hai ascoltato tutti i brani! Ricomincia.');
@@ -169,7 +160,6 @@ async function prossimoBrano() {
     document.getElementById('durata-scelta').textContent = durataScelta + ' sec';
 }
 
-// PLAYER MIDI
 async function ascoltaSpezzone() {
     if (!branoCorrente) return;
 
@@ -215,7 +205,6 @@ async function ascoltaSpezzone() {
     }
 }
 
-// MOSTRA RISPOSTA
 function mostraRisposta() {
     if (!branoCorrente) return;
     const comp = branoCorrente.Compositori;
@@ -226,7 +215,6 @@ function mostraRisposta() {
     document.getElementById('btn-mostra-risposta').style.display = 'none';
 }
 
-// EVENTI TENDINE A CASCATA
 document.getElementById('sel-periodo').addEventListener('change', function() {
     caricaNazioni(this.value);
     caricaCompositori(this.value, '');
@@ -245,7 +233,6 @@ document.getElementById('sel-compositore').addEventListener('change', function()
     caricaForme(periodo, nazione, this.value);
 });
 
-// ALTRI EVENTI
 document.getElementById('btn-gioca').addEventListener('click', async () => {
     const ok = await caricaBrani();
     if (ok) {
@@ -275,8 +262,36 @@ document.getElementById('btn-segnala').addEventListener('click', () => {
     }
 });
 
-// AVVIO
-caricaPeriodi();
-caricaNazioni('');
-caricaCompositori('', '');
-caricaForme('', '', '');
+async function avvio() {
+    await caricaPeriodi();
+
+    const { data: nazioni, error: errNaz } = await db.from('Nazioni').select('IDNazione, Nazione').order('Nazione');
+    console.log('Nazioni:', nazioni, errNaz);
+    const selNazione = document.getElementById('sel-nazione');
+    if (nazioni) nazioni.forEach(n => {
+        const opt = document.createElement('option');
+        opt.value = n.IDNazione;
+        opt.textContent = n.Nazione;
+        selNazione.appendChild(opt);
+    });
+
+    const { data: compositori } = await db.from('Compositori').select('IDCompositore, "Nome Compositore"').order('"Nome Compositore"');
+    const selComp = document.getElementById('sel-compositore');
+    if (compositori) compositori.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.IDCompositore;
+        opt.textContent = c['Nome Compositore'];
+        selComp.appendChild(opt);
+    });
+
+    const { data: forme } = await db.from('Forma Musicale').select('IDFormaMusicale, FormaMusicale').order('FormaMusicale');
+    const selForma = document.getElementById('sel-forma');
+    if (forme) forme.forEach(f => {
+        const opt = document.createElement('option');
+        opt.value = f.IDFormaMusicale;
+        opt.textContent = f.FormaMusicale;
+        selForma.appendChild(opt);
+    });
+}
+
+avvio();
