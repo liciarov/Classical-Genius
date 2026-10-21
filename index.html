@@ -2,9 +2,13 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0e0d12">
     <title>Classical Genius</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,7 +16,7 @@
     <!-- HOME -->
     <div id="schermata-home">
         <header>
-            <img src="favicon.ico" alt="logo" style="height:60px;">
+            <img src="favicon.ico" alt="Logo Classical Genius">
             <h1>Classical Genius</h1>
             <p>Testa la tua conoscenza della musica classica</p>
         </header>
@@ -22,35 +26,35 @@
                 <h2>Scegli come vuoi giocare</h2>
 
                 <div class="filtro-gruppo">
-                    <label>Periodo</label>
+                    <label for="sel-periodo">Periodo</label>
                     <select id="sel-periodo">
                         <option value="">-- Tutti i periodi --</option>
                     </select>
                 </div>
 
                 <div class="filtro-gruppo">
-                    <label>Nazione</label>
+                    <label for="sel-nazione">Nazione</label>
                     <select id="sel-nazione">
                         <option value="">-- Tutte le nazioni --</option>
                     </select>
                 </div>
 
                 <div class="filtro-gruppo">
-                    <label>Compositore</label>
+                    <label for="sel-compositore">Compositore</label>
                     <select id="sel-compositore">
                         <option value="">-- Tutti i compositori --</option>
                     </select>
                 </div>
 
                 <div class="filtro-gruppo">
-                    <label>Forma musicale</label>
+                    <label for="sel-forma">Forma musicale</label>
                     <select id="sel-forma">
                         <option value="">-- Tutte le forme --</option>
                     </select>
                 </div>
 
                 <div class="filtro-gruppo">
-                    <label>Durata spezzone</label>
+                    <label for="sel-durata">Durata spezzone</label>
                     <select id="sel-durata">
                         <option value="5">5 secondi</option>
                         <option value="3">3 secondi</option>
@@ -58,7 +62,7 @@
                     </select>
                 </div>
 
-                <button id="btn-gioca">🎵 Inizia a giocare!</button>
+                <button id="btn-gioca">Inizia a giocare</button>
             </section>
         </main>
     </div>
@@ -66,15 +70,21 @@
     <!-- GIOCO -->
     <div id="schermata-gioco" style="display:none;">
         <header>
-            <img src="favicon.ico" alt="logo" style="height:40px;">
+            <button id="btn-home" aria-label="Torna alla home">&larr; Home</button>
+            <img src="favicon.ico" alt="">
             <h1>Classical Genius</h1>
-            <button id="btn-home">← Home</button>
         </header>
 
         <main>
             <div id="card-brano">
                 <p id="info-brano">Caricamento...</p>
-                <button id="btn-ascolta">🎵 Ascolta</button>
+
+                <button id="btn-ascolta" aria-label="Ascolta lo spezzone">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M8 5.5v13a1 1 0 0 0 1.52.85l10.4-6.5a1 1 0 0 0 0-1.7L9.52 4.65A1 1 0 0 0 8 5.5Z"/>
+                    </svg>
+                </button>
+
                 <div id="controlli-durata">
                     <span id="durata-scelta">5 sec</span>
                 </div>
@@ -86,16 +96,16 @@
                 <p id="movimento-risposta"></p>
 
                 <div id="bottoni-anki">
-                    <button class="anki-btn" id="btn-corretto">✅ Corretto</button>
-                    <button class="anki-btn" id="btn-insicuro">😅 Insicuro</button>
-                    <button class="anki-btn" id="btn-sbagliato">❌ Sbagliato</button>
-                    <button class="anki-btn" id="btn-nonricordo">🤷 Non ricordavo</button>
+                    <button class="anki-btn" id="btn-corretto">Corretto</button>
+                    <button class="anki-btn" id="btn-insicuro">Insicuro</button>
+                    <button class="anki-btn" id="btn-sbagliato">Sbagliato</button>
+                    <button class="anki-btn" id="btn-nonricordo">Non ricordavo</button>
                 </div>
 
-                <button id="btn-segnala">⚠️ Segnala problema</button>
+                <button id="btn-segnala">Segnala un problema</button>
             </div>
 
-            <button id="btn-mostra-risposta" style="display:none;">👁️ Mostra risposta</button>
+            <button id="btn-mostra-risposta" style="display:none;">Mostra risposta</button>
         </main>
     </div>
 
