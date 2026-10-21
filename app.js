@@ -9,6 +9,12 @@ let branoCorrente = null;
 let durataScelta = 5;
 let audioContext = null;
 let playerAttivo = null;
+let timerAscolto = null;
+
+function fineAscolto() {
+    clearTimeout(timerAscolto);
+    document.getElementById('card-brano').classList.remove('in-ascolto');
+}
 
 function mostraHome() {
     document.getElementById('schermata-home').style.display = 'block';
@@ -156,7 +162,9 @@ async function prossimoBrano() {
     branoCorrente = braniDisponibili.pop();
     document.getElementById('risposta').style.display = 'none';
     document.getElementById('btn-mostra-risposta').style.display = 'block';
-    document.getElementById('info-brano').textContent = '🎵 Premi play per ascoltare';
+    fineAscolto();
+    if (playerAttivo) playerAttivo.stop();
+    document.getElementById('info-brano').textContent = 'Premi play per ascoltare';
     document.getElementById('durata-scelta').textContent = durataScelta + ' sec';
 }
 
@@ -168,7 +176,8 @@ async function ascoltaSpezzone() {
     const nomeFile = `${branoCorrente.Codice}_${String(spezzoneNum).padStart(3, '0')}.mid`;
     const url = `${SUPABASE_URL}/storage/v1/object/public/Spezzoni/${nomeFile}`;
 
-    document.getElementById('info-brano').textContent = '⏳ Caricamento...';
+    fineAscolto();
+    document.getElementById('info-brano').textContent = 'Caricamento…';
 
     try {
         const risposta = await fetch(url);
@@ -192,15 +201,17 @@ async function ascoltaSpezzone() {
             player.play();
             playerAttivo = player;
 
-            setTimeout(() => {
+            timerAscolto = setTimeout(() => {
                 player.stop();
-                document.getElementById('info-brano').textContent = '🎵 Di chi è questo brano?';
+                document.getElementById('card-brano').classList.remove('in-ascolto');
+                document.getElementById('info-brano').textContent = 'Di chi è questo brano?';
             }, durataScelta * 1000);
 
-            document.getElementById('info-brano').textContent = '🎵 In ascolto...';
+            document.getElementById('card-brano').classList.add('in-ascolto');
+            document.getElementById('info-brano').textContent = 'In ascolto…';
         });
     } catch (e) {
-        document.getElementById('info-brano').textContent = '❌ Errore caricamento';
+        document.getElementById('info-brano').textContent = 'Errore di caricamento, riprova';
         console.error(e);
     }
 }
