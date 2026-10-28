@@ -76,14 +76,11 @@ select {
 }
 
 #schermata-home header img {
-    width: 112px;
-    height: 112px;
+    width: 124px;
+    height: 124px;
     object-fit: contain;
-    border-radius: 24px;
     margin-bottom: 20px;
-    box-shadow:
-        0 0 0 1px var(--line-strong),
-        0 14px 44px rgba(201, 168, 76, 0.22);
+    filter: drop-shadow(0 12px 32px rgba(70, 110, 220, 0.35));
 }
 
 #schermata-home header h1 {
@@ -119,7 +116,6 @@ select {
     width: 36px;
     height: 36px;
     object-fit: contain;
-    border-radius: 8px;
 }
 
 #schermata-gioco header h1 {
@@ -490,7 +486,7 @@ h2 {
         padding-top: calc(36px + env(safe-area-inset-top));
         padding-bottom: 26px;
     }
-    #schermata-home header img { width: 92px; height: 92px; margin-bottom: 16px; }
+    #schermata-home header img { width: 100px; height: 100px; margin-bottom: 16px; }
     #schermata-home header h1 { font-size: 2.3rem; }
     #schermata-home header p { font-size: 1.08rem; }
 
