@@ -6,13 +6,28 @@ const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let braniDisponibili = [];
 let branoCorrente = null;
-let durataScelta = 5;
+// Ogni spezzone MIDI dura 10 secondi; l'utente sceglie quanti ne ascolta (<= 10)
+const DURATA_SPEZZONE = 10;
+// Dove si trovano i file MIDI. Per spostarli su Supabase Storage basta cambiare questa riga in:
+// `${SUPABASE_URL}/storage/v1/object/public/Spezzoni/`
+const AUDIO_BASE_URL = 'audio/';
+
+let durataScelta = DURATA_SPEZZONE;
 let audioContext = null;
 let playerAttivo = null;
 let timerAscolto = null;
+let pianoPromise = null;
+let noteAttive = {};
+
+function fermaNote() {
+    Object.values(noteAttive).forEach(n => { try { n.stop(); } catch (e) {} });
+    noteAttive = {};
+}
 
 function fineAscolto() {
     clearTimeout(timerAscolto);
+    if (playerAttivo) playerAttivo.stop();
+    fermaNote();
     document.getElementById('card-brano').classList.remove('in-ascolto');
 }
 
@@ -171,47 +186,59 @@ async function prossimoBrano() {
 async function ascoltaSpezzone() {
     if (!branoCorrente) return;
 
-    const numSpezzoni = branoCorrente.NumeroSpezzoni || 100;
+    const numSpezzoni = branoCorrente.NumeroSpezzoni || 1;
     const spezzoneNum = Math.floor(Math.random() * numSpezzoni) + 1;
     const nomeFile = `${branoCorrente.Codice}_${String(spezzoneNum).padStart(3, '0')}.mid`;
-    const url = `${SUPABASE_URL}/storage/v1/object/public/Spezzoni/${nomeFile}`;
+    const url = AUDIO_BASE_URL + nomeFile;
+
+    // Se l'utente vuole meno di 10 secondi, parte da un punto casuale dello spezzone
+    const margine = Math.max(0, DURATA_SPEZZONE - durataScelta);
+    const partenza = Math.random() * margine;
 
     fineAscolto();
     document.getElementById('info-brano').textContent = 'Caricamento…';
 
     try {
         const risposta = await fetch(url);
+        if (!risposta.ok) throw new Error('Spezzone non trovato: ' + nomeFile);
         const buffer = await risposta.arrayBuffer();
 
         if (!audioContext) audioContext = new AudioContext();
+        if (audioContext.state === 'suspended') await audioContext.resume();
+        if (!pianoPromise) pianoPromise = Soundfont.instrument(audioContext, 'acoustic_grand_piano');
+        const piano = await pianoPromise;
 
-        Soundfont.instrument(audioContext, 'acoustic_grand_piano').then(piano => {
-            if (playerAttivo) playerAttivo.stop();
-
-            const player = new MidiPlayer.Player(event => {
-                if (event.name === 'Note on' && event.velocity > 0) {
-                    piano.play(event.noteName, audioContext.currentTime, {
-                        gain: event.velocity / 100,
-                        duration: 0.5
-                    });
+        const player = new MidiPlayer.Player(event => {
+            if (event.name === 'Note on' && event.velocity > 0) {
+                if (noteAttive[event.noteNumber]) { try { noteAttive[event.noteNumber].stop(); } catch (e) {} }
+                noteAttive[event.noteNumber] = piano.play(event.noteName, audioContext.currentTime, {
+                    gain: event.velocity / 100
+                });
+            } else if (event.name === 'Note off' || (event.name === 'Note on' && event.velocity === 0)) {
+                const nota = noteAttive[event.noteNumber];
+                if (nota) {
+                    try { nota.stop(audioContext.currentTime + 0.15); } catch (e) {}
+                    delete noteAttive[event.noteNumber];
                 }
-            });
-
-            player.loadArrayBuffer(buffer);
-            player.play();
-            playerAttivo = player;
-
-            timerAscolto = setTimeout(() => {
-                player.stop();
-                document.getElementById('card-brano').classList.remove('in-ascolto');
-                document.getElementById('info-brano').textContent = 'Di chi è questo brano?';
-            }, durataScelta * 1000);
-
-            document.getElementById('card-brano').classList.add('in-ascolto');
-            document.getElementById('info-brano').textContent = 'In ascolto…';
+            }
         });
+
+        player.loadArrayBuffer(buffer);
+        if (partenza > 0.05 && partenza < player.getSongTime()) player.skipToSeconds(partenza);
+        player.play();
+        playerAttivo = player;
+
+        timerAscolto = setTimeout(() => {
+            player.stop();
+            fermaNote();
+            document.getElementById('card-brano').classList.remove('in-ascolto');
+            document.getElementById('info-brano').textContent = 'Di chi è questo brano?';
+        }, durataScelta * 1000);
+
+        document.getElementById('card-brano').classList.add('in-ascolto');
+        document.getElementById('info-brano').textContent = 'In ascolto…';
     } catch (e) {
-        document.getElementById('info-brano').textContent = 'Errore di caricamento, riprova';
+        document.getElementById('info-brano').textContent = 'Spezzone non disponibile, riprova';
         console.error(e);
     }
 }
